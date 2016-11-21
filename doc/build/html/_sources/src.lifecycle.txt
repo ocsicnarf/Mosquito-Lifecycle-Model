@@ -1,4 +1,4 @@
-``compartmodel`` Module
+``lifecycle`` Module
 ========================
 
 .. automodule:: src.lifecycle
