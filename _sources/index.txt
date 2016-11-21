@@ -12,3 +12,4 @@
 
    src.compartmodel
    src.lifecycle
+   src.configurator
