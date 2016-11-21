@@ -17,18 +17,18 @@ class Configurator:
       self._parameters = json.load(par_file, object_hook=lambda d: Bunch(d))
 
   def copy_parameters_file(self, output_dir):
-  """ Copy the parameter file used to initialize this Configurator instance.
+    """ Copy the parameter file used to initialize this Configurator instance.
 
-  :param output_dir: Put the copy of the parameter file in this directory.
-  :return: The path of the copied file.
-  
-  """
+    :param output_dir: Put the copy of the parameter file in this directory.
+    :return: The path of the copied file.
+    
+    """
     dest_path = os.path.join(output_dir, os.path.basename(self._parameters_path))
     shutil.copyfile(self._parameters_path, dest_path)
     return dest_path
 
   def get_parameters(self, path=""):
-  """ Get the parameter options stored in this Configurator instance. """
+    """ Get the parameter options stored in this Configurator instance. """
     parameters = copy.deepcopy(self._parameters)
     if not path:
       return parameters

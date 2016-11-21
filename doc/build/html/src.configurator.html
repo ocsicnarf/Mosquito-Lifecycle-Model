@@ -51,8 +51,74 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="configurator-module">
-<h1><code class="docutils literal"><span class="pre">configurator</span></code> Module<a class="headerlink" href="#configurator-module" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-src.configurator">
+<span id="configurator-module"></span><h1><code class="docutils literal"><span class="pre">configurator</span></code> Module<a class="headerlink" href="#module-src.configurator" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="src.configurator.Configurator">
+<em class="property">class </em><code class="descclassname">src.configurator.</code><code class="descname">Configurator</code><span class="sig-paren">(</span><em>parameters_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/configurator.html#Configurator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.configurator.Configurator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores parameter options and creates set of parameter values to be used in simulations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>parameters_path</strong> &#8211; Path to a file containing parameter options under different</td>
+</tr>
+</tbody>
+</table>
+<p>scenarios, e.g. transmission settings, interventions.</p>
+<dl class="method">
+<dt id="src.configurator.Configurator.copy_parameters_file">
+<code class="descname">copy_parameters_file</code><span class="sig-paren">(</span><em>output_dir</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/configurator.html#Configurator.copy_parameters_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.configurator.Configurator.copy_parameters_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy the parameter file used to initialize this Configurator instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>output_dir</strong> &#8211; Put the copy of the parameter file in this directory.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The path of the copied file.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="src.configurator.Configurator.create_configuration">
+<code class="descname">create_configuration</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/configurator.html#Configurator.create_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.configurator.Configurator.create_configuration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a configuration object (set of parameter values) based on a scenario.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kawargs</strong> &#8211; See below.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Keyword arguments:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><a href="#id1"><span class="problematic" id="id2">*</span></a>application          <a href="#id3"><span class="problematic" id="id4">*</span></a>&#8211; &#8216;itn&#8217; or &#8216;irs&#8217;</li>
+<li><a href="#id5"><span class="problematic" id="id6">*</span></a>intervention         <a href="#id7"><span class="problematic" id="id8">*</span></a>&#8211; &#8216;dbh&#8217;, &#8216;ins&#8217;, or &#8216;none&#8217;</li>
+<li><a href="#id9"><span class="problematic" id="id10">*</span></a>coverage             <a href="#id11"><span class="problematic" id="id12">*</span></a>&#8211; value between 0 and 1</li>
+<li><a href="#id13"><span class="problematic" id="id14">*</span></a>dose                 <a href="#id15"><span class="problematic" id="id16">*</span></a>&#8211; &#8216;low&#8217;, &#8216;medium&#8217;, or &#8216;high&#8217;</li>
+<li><a href="#id17"><span class="problematic" id="id18">*</span></a>num_days             <a href="#id19"><span class="problematic" id="id20">*</span></a>&#8211; positive integer</li>
+<li><a href="#id21"><span class="problematic" id="id22">*</span></a>intervention_day     <a href="#id23"><span class="problematic" id="id24">*</span></a>&#8211; positive integer &lt; num_days</li>
+<li><a href="#id25"><span class="problematic" id="id26">*</span></a>transmission         <a href="#id27"><span class="problematic" id="id28">*</span></a>&#8211; &#8216;low&#8217;, &#8216;medium&#8217;, or &#8216;high&#8217;</li>
+<li><a href="#id29"><span class="problematic" id="id30">*</span></a>larva_mortality      <a href="#id31"><span class="problematic" id="id32">*</span></a>&#8211; &#8216;linear&#8217; or &#8216;logistic&#8217;</li>
+<li><a href="#id33"><span class="problematic" id="id34">*</span></a>human_infectiousness <a href="#id35"><span class="problematic" id="id36">*</span></a>&#8211; &#8216;linear&#8217; or &#8216;nonlinear&#8217;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="src.configurator.Configurator.get_parameters">
+<code class="descname">get_parameters</code><span class="sig-paren">(</span><em>path=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/configurator.html#Configurator.get_parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.configurator.Configurator.get_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the parameter options stored in this Configurator instance.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
