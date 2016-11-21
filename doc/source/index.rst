@@ -11,3 +11,4 @@
 .. toctree::
 
    src.compartmodel
+   src.lifecycle
