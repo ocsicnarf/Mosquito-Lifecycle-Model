@@ -42,15 +42,15 @@ class Configurator:
     :param \**kwargs: See below.
 
     :Keyword arguments:
-      * *application*          -- 'itn' or 'irs'
-      * *intervention*         -- 'dbh', 'ins', or 'none'
-      * *coverage*             -- value between 0 and 1
-      * *dose*                 -- 'low', 'medium', or 'high'
-      * *num_days*             -- positive integer
-      * *intervention_day*     -- positive integer < num_days
-      * *transmission*         -- 'low', 'medium', or 'high'
-      * *larva_mortality*      -- 'linear' or 'logistic'
-      * *human_infectiousness* -- 'linear' or 'nonlinear'
+      * *application*          -- Application of the intervention. 'itn' for insecticide-treated nets (exposure on day of first feed) or 'irs' (exposure on day of first indoor rest)
+      * *intervention*         -- Type of intervention (characterized by combination of effects). 'dbh' for DBH, 'ins' for insecticide, or 'none' for no intervention.
+      * *coverage*             -- Proportion of mosquitoes exposed on their first feed (or indoor rest). Value between 0 and 1.
+      * *dose*                 -- Dose of DBH or insecticide, which determines the efficacies of the different effects. 'low', 'medium', or 'high'
+      * *num_days*             -- Run the simulation for this many days.
+      * *intervention_day*     -- Introduce the intervention on this day. Must be less than num_days.
+      * *transmission*         -- Transmission setting, determined by the biting rate. 'low', 'medium', or 'high'
+      * *larva_mortality*      -- Shape of the relationship between larva mortality and larva population size. 'linear' or 'logistic'
+      * *human_infectiousness* -- Shape of the relationship between human infectiousness to mosquitoes and human prevalence. 'linear' or 'nonlinear'
     """
     kwargs = Bunch(kwargs)
     for k in ('intervention', 'coverage', 'dose', 'num_days', 
