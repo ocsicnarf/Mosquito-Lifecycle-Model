@@ -7,8 +7,7 @@ import shutil
 class Configurator:
   """ Stores parameter options and creates set of parameter values to be used in simulations. 
 
-  :param parameters_path: Path to a file containing parameter options under different
-  scenarios, e.g. transmission settings, interventions.
+  :param parameters_path: Path to a file containing parameter options under different scenarios, e.g. transmission settings, interventions.
 
   """
   def __init__(self, parameters_path):
