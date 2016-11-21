@@ -21,7 +21,7 @@ class Configurator:
 
   :param output_dir: Put the copy of the parameter file in this directory.
   :return: The path of the copied file.
-
+  
   """
     dest_path = os.path.join(output_dir, os.path.basename(self._parameters_path))
     shutil.copyfile(self._parameters_path, dest_path)
