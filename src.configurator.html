@@ -94,15 +94,15 @@
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Keyword arguments:</th></tr>
 <tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
-<li><em>application</em>          &#8211; &#8216;itn&#8217; or &#8216;irs&#8217;</li>
-<li><em>intervention</em>         &#8211; &#8216;dbh&#8217;, &#8216;ins&#8217;, or &#8216;none&#8217;</li>
-<li><em>coverage</em>             &#8211; value between 0 and 1</li>
-<li><em>dose</em>                 &#8211; &#8216;low&#8217;, &#8216;medium&#8217;, or &#8216;high&#8217;</li>
-<li><em>num_days</em>             &#8211; positive integer</li>
-<li><em>intervention_day</em>     &#8211; positive integer &lt; num_days</li>
-<li><em>transmission</em>         &#8211; &#8216;low&#8217;, &#8216;medium&#8217;, or &#8216;high&#8217;</li>
-<li><em>larva_mortality</em>      &#8211; &#8216;linear&#8217; or &#8216;logistic&#8217;</li>
-<li><em>human_infectiousness</em> &#8211; &#8216;linear&#8217; or &#8216;nonlinear&#8217;</li>
+<li><em>application</em>          &#8211; Application of the intervention. &#8216;itn&#8217; for insecticide-treated nets (exposure on day of first feed) or &#8216;irs&#8217; (exposure on day of first indoor rest)</li>
+<li><em>intervention</em>         &#8211; Type of intervention (characterized by combination of effects). &#8216;dbh&#8217; for DBH, &#8216;ins&#8217; for insecticide, or &#8216;none&#8217; for no intervention.</li>
+<li><em>coverage</em>             &#8211; Proportion of mosquitoes exposed on their first feed (or indoor rest). Value between 0 and 1.</li>
+<li><em>dose</em>                 &#8211; Dose of DBH or insecticide, which determines the efficacies of the different effects. &#8216;low&#8217;, &#8216;medium&#8217;, or &#8216;high&#8217;</li>
+<li><em>num_days</em>             &#8211; Run the simulation for this many days.</li>
+<li><em>intervention_day</em>     &#8211; Introduce the intervention on this day. Must be less than num_days.</li>
+<li><em>transmission</em>         &#8211; Transmission setting, determined by the biting rate. &#8216;low&#8217;, &#8216;medium&#8217;, or &#8216;high&#8217;</li>
+<li><em>larva_mortality</em>      &#8211; Shape of the relationship between larva mortality and larva population size. &#8216;linear&#8217; or &#8216;logistic&#8217;</li>
+<li><em>human_infectiousness</em> &#8211; Shape of the relationship between human infectiousness to mosquitoes and human prevalence. &#8216;linear&#8217; or &#8216;nonlinear&#8217;</li>
 </ul>
 </td>
 </tr>

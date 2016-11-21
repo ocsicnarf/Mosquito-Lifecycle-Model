@@ -94,15 +94,15 @@
 <span class="sd">    :param \**kwargs: See below.</span>
 
 <span class="sd">    :Keyword arguments:</span>
-<span class="sd">      * *application*          -- &#39;itn&#39; or &#39;irs&#39;</span>
-<span class="sd">      * *intervention*         -- &#39;dbh&#39;, &#39;ins&#39;, or &#39;none&#39;</span>
-<span class="sd">      * *coverage*             -- value between 0 and 1</span>
-<span class="sd">      * *dose*                 -- &#39;low&#39;, &#39;medium&#39;, or &#39;high&#39;</span>
-<span class="sd">      * *num_days*             -- positive integer</span>
-<span class="sd">      * *intervention_day*     -- positive integer &lt; num_days</span>
-<span class="sd">      * *transmission*         -- &#39;low&#39;, &#39;medium&#39;, or &#39;high&#39;</span>
-<span class="sd">      * *larva_mortality*      -- &#39;linear&#39; or &#39;logistic&#39;</span>
-<span class="sd">      * *human_infectiousness* -- &#39;linear&#39; or &#39;nonlinear&#39;</span>
+<span class="sd">      * *application*          -- Application of the intervention. &#39;itn&#39; for insecticide-treated nets (exposure on day of first feed) or &#39;irs&#39; (exposure on day of first indoor rest)</span>
+<span class="sd">      * *intervention*         -- Type of intervention (characterized by combination of effects). &#39;dbh&#39; for DBH, &#39;ins&#39; for insecticide, or &#39;none&#39; for no intervention.</span>
+<span class="sd">      * *coverage*             -- Proportion of mosquitoes exposed on their first feed (or indoor rest). Value between 0 and 1.</span>
+<span class="sd">      * *dose*                 -- Dose of DBH or insecticide, which determines the efficacies of the different effects. &#39;low&#39;, &#39;medium&#39;, or &#39;high&#39;</span>
+<span class="sd">      * *num_days*             -- Run the simulation for this many days.</span>
+<span class="sd">      * *intervention_day*     -- Introduce the intervention on this day. Must be less than num_days.</span>
+<span class="sd">      * *transmission*         -- Transmission setting, determined by the biting rate. &#39;low&#39;, &#39;medium&#39;, or &#39;high&#39;</span>
+<span class="sd">      * *larva_mortality*      -- Shape of the relationship between larva mortality and larva population size. &#39;linear&#39; or &#39;logistic&#39;</span>
+<span class="sd">      * *human_infectiousness* -- Shape of the relationship between human infectiousness to mosquitoes and human prevalence. &#39;linear&#39; or &#39;nonlinear&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">kwargs</span> <span class="o">=</span> <span class="n">Bunch</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;intervention&#39;</span><span class="p">,</span> <span class="s1">&#39;coverage&#39;</span><span class="p">,</span> <span class="s1">&#39;dose&#39;</span><span class="p">,</span> <span class="s1">&#39;num_days&#39;</span><span class="p">,</span> 
