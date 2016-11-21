@@ -1,0 +1,68 @@
+{
+  "lifecycle": {
+    "daily_survival" : {
+      "egg": 0.8,
+      "larva" : {
+       "min": 0.6,
+       "max": 0.965
+      },
+      "adult": {
+        "baseline": 1.0,
+        "age_discounts" : [1.00, 1.00, 0.96, 0.97, 0.98, 1.00, 0.98, 0.98, 0.99, 0.96, 0.97, 0.94, 0.93, 0.93, 0.92, 0.91, 0.78, 0.71, 0.59]
+      }
+    },
+    "development_days": {
+      "egg": 3,
+      "larva": 10
+    },
+    "female_fraction": 0.5,
+    "mate_first_fraction": 0.5,
+    "maximum_cycles" : 6
+  }, 
+  "population": {
+    "egg_batch": 60,
+    "larval_capacity": 1e4,
+    "larval_mortality_shape": {
+      "logistic": {
+        "c1": 0.0493973783602,
+        "c2": 3.39788730927,
+        "c3": 2.0
+      }, 
+      "linear": {
+        "c": 8.08406563112
+      }
+    },
+    "initial_size": 6e2
+  },
+  "malaria": {
+    "inoculation_efficiency": 0.55,
+    "recovery_days": 75,
+    "initial_human_prevalence": 0.047,
+    "max_human_infectiousness": 0.10,
+    "human_infectiousness_shape": {
+      "piecewise_linear": {
+        "c": 0.3
+      },
+      "nonlinear": {
+        "c": 0.05
+      }
+    },
+    "sporogony_days": 12,
+    "biting_scaling_factor": { 
+      "high": 2.15e-2,
+      "medium": 3.78e-3,
+      "low": 1.09e-3
+    }
+  },
+  "efficacy": {
+    "mating": [0.25, 0.54, 0.65],
+    "egg": [0.26, 0.69, 0.95],
+    "parasite": [0.16, 0.56, 0.87],
+    "persistent_mortality": [
+      [0.027, 0.009, 0.009, 0.028, 0.048, 0.030, 0.031, 0.022, 0.011, 0.096, 0.107, 0.119, 0.234, 0.306, 0.206, 0.259, 0.350],
+      [0.036, 0.037, 0.038, 0.000, 0.020, 0.051, 0.097, 0.048, 0.037, 0.108, 0.121, 0.138, 0.163, 0.195, 0.200, 0.250, 0.333],
+      [0.259, 0.036, 0.025, 0.000, 0.013, 0.104, 0.101, 0.081, 0.140, 0.163, 0.195, 0.242, 0.220, 0.282, 0.143, 0.167, 0.200]
+    ],
+    "immediate_mortality": [0.60, 0.80, 1.00]
+  }
+}
