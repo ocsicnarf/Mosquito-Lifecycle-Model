@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>src.lifecycle &#8212; mosquito-lifecycle-model 1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="top" title="mosquito-lifecycle-model 1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">mosquito-lifecycle-model 1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for src.lifecycle</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">compartmodel</span> <span class="k">import</span> <span class="n">Model</span>
+
+<div class="viewcode-block" id="create_model"><a class="viewcode-back" href="../../src.lifecycle.html#src.lifecycle.create_model">[docs]</a><span class="k">def</span> <span class="nf">create_model</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot; Create a compartmental model of the mosquito lifecycle. &quot;&quot;&quot;</span>
+  
+  <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
+  
+  <span class="c1">### Add compartments ###</span>
+  <span class="c1"># developmental compartments and first adult compartment</span>
+  <span class="n">eggs</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">development_days</span><span class="o">.</span><span class="n">egg</span><span class="p">):</span>
+    <span class="n">eggs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;egg-</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;egg&#39;</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="n">i</span><span class="p">))</span>
+  
+  <span class="n">larvae</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">development_days</span><span class="o">.</span><span class="n">larva</span><span class="p">):</span>
+    <span class="n">larvae</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;larva-</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;larva&#39;</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="n">i</span><span class="p">))</span>
+
+  <span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;emergence-rest&#39;</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+  <span class="c1"># mate-first track</span>
+  <span class="n">mate_first_track</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">mate_first_track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;mate-first&#39;</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="n">activity</span><span class="o">=</span><span class="s1">&#39;mating&#39;</span><span class="p">))</span>
+  <span class="n">mate_first_track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;feed-after&#39;</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="n">activity</span><span class="o">=</span><span class="s1">&#39;feeding&#39;</span><span class="p">))</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">maximum_cycles</span><span class="p">):</span>
+    <span class="n">mate_first_track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;M</span><span class="si">{}</span><span class="s1">-rest1&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="n">cycle</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">activity</span><span class="o">=</span><span class="s1">&#39;resting&#39;</span><span class="p">))</span>
+    <span class="n">mate_first_track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;M</span><span class="si">{}</span><span class="s1">-rest2&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="n">cycle</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">activity</span><span class="o">=</span><span class="s1">&#39;resting&#39;</span><span class="p">))</span>
+    <span class="n">mate_first_track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;M</span><span class="si">{}</span><span class="s1">-lay&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>   <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="n">cycle</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">activity</span><span class="o">=</span><span class="s1">&#39;laying&#39;</span><span class="p">,</span> <span class="n">mated</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="n">mate_first_track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;M</span><span class="si">{}</span><span class="s1">-feed&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>  <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="n">cycle</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">activity</span><span class="o">=</span><span class="s1">&#39;feeding&#39;</span><span class="p">))</span>
+
+  <span class="c1"># feed-first track</span>
+  <span class="n">feed_first_track</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">feed_first_track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;feed-first&#39;</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="n">activity</span><span class="o">=</span><span class="s1">&#39;feeding&#39;</span><span class="p">))</span>
+  <span class="n">feed_first_track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;mate-after&#39;</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="n">activity</span><span class="o">=</span><span class="s1">&#39;mating&#39;</span><span class="p">))</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">maximum_cycles</span><span class="p">):</span>
+    <span class="n">feed_first_track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;F</span><span class="si">{}</span><span class="s1">-rest1&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="n">cycle</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">activity</span><span class="o">=</span><span class="s1">&#39;resting&#39;</span><span class="p">))</span>
+    <span class="n">feed_first_track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;F</span><span class="si">{}</span><span class="s1">-rest2&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="n">cycle</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">activity</span><span class="o">=</span><span class="s1">&#39;resting&#39;</span><span class="p">))</span>
+    <span class="n">feed_first_track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;F</span><span class="si">{}</span><span class="s1">-lay&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>   <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="n">cycle</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">activity</span><span class="o">=</span><span class="s1">&#39;laying&#39;</span><span class="p">,</span> <span class="n">mated</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="n">feed_first_track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;F</span><span class="si">{}</span><span class="s1">-feed&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>  <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="n">cycle</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">activity</span><span class="o">=</span><span class="s1">&#39;feeding&#39;</span><span class="p">))</span>
+
+  <span class="c1"># forever-virgin subtrack</span>
+  <span class="n">virgin_track</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">maximum_cycles</span><span class="p">):</span>
+    <span class="n">virgin_track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;V</span><span class="si">{}</span><span class="s1">-rest1&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="n">cycle</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">activity</span><span class="o">=</span><span class="s1">&#39;resting&#39;</span><span class="p">))</span>
+    <span class="n">virgin_track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;V</span><span class="si">{}</span><span class="s1">-rest2&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="n">cycle</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">activity</span><span class="o">=</span><span class="s1">&#39;resting&#39;</span><span class="p">))</span>
+    <span class="n">virgin_track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;V</span><span class="si">{}</span><span class="s1">-lay&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>   <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="n">cycle</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">activity</span><span class="o">=</span><span class="s1">&#39;laying&#39;</span><span class="p">,</span> <span class="n">mated</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="n">virgin_track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;V</span><span class="si">{}</span><span class="s1">-feed&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>  <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;adult&#39;</span><span class="p">,</span> <span class="n">cycle</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">activity</span><span class="o">=</span><span class="s1">&#39;feeding&#39;</span><span class="p">))</span>
+
+  <span class="c1"># add the age and &quot;days since first exposure&quot; attributes for the three tracks</span>
+  <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mate_first_track</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">get_compartment</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">set_attr</span><span class="p">(</span><span class="n">age</span><span class="o">=</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">days_post_first_feed</span><span class="o">=</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">days_post_second_rest</span><span class="o">=</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
+  <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">feed_first_track</span><span class="p">):</span> 
+    <span class="n">model</span><span class="o">.</span><span class="n">get_compartment</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">set_attr</span><span class="p">(</span><span class="n">age</span><span class="o">=</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">days_post_first_feed</span><span class="o">=</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">0</span><span class="p">),</span> <span class="n">days_post_second_rest</span><span class="o">=</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
+  <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">virgin_track</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">get_compartment</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">set_attr</span><span class="p">(</span><span class="n">age</span><span class="o">=</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">),</span> <span class="n">days_post_first_feed</span><span class="o">=</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">days_post_second_rest</span><span class="o">=</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">0</span><span class="p">))</span>
+
+  <span class="c1"># where all mosquitoes end up</span>
+  <span class="n">model</span><span class="o">.</span><span class="n">add_compartment</span><span class="p">(</span><span class="s1">&#39;dead&#39;</span><span class="p">)</span>
+
+  <span class="c1">### Add transitions ###</span>
+  <span class="c1"># developmental stages through to post emergence rest</span>
+  <span class="n">model</span><span class="o">.</span><span class="n">chain_compartments</span><span class="p">(</span><span class="n">eggs</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">daily_survival</span><span class="o">.</span><span class="n">egg</span><span class="p">)</span>
+  <span class="n">model</span><span class="o">.</span><span class="n">set_transition</span><span class="p">(</span><span class="n">eggs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">larvae</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">config</span><span class="o">.</span><span class="n">daily_survival</span><span class="o">.</span><span class="n">egg</span><span class="p">)</span>
+  <span class="n">model</span><span class="o">.</span><span class="n">chain_compartments</span><span class="p">(</span><span class="n">larvae</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">daily_survival</span><span class="o">.</span><span class="n">larva</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+  <span class="n">model</span><span class="o">.</span><span class="n">set_transition</span><span class="p">(</span><span class="n">larvae</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;emergence-rest&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">female_fraction</span> <span class="o">*</span> <span class="n">config</span><span class="o">.</span><span class="n">daily_survival</span><span class="o">.</span><span class="n">larva</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+
+  <span class="c1"># helper function for getting the age-specific adult survival</span>
+  <span class="k">def</span> <span class="nf">get_survival</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">age</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_compartment</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">get_attr</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">)</span>
+    <span class="n">discounts</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">daily_survival</span><span class="o">.</span><span class="n">adult</span><span class="o">.</span><span class="n">age_discounts</span>
+    <span class="n">discount</span> <span class="o">=</span> <span class="n">discounts</span><span class="p">[</span><span class="n">age</span><span class="p">]</span> <span class="k">if</span> <span class="n">age</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">discounts</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">discounts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">baseline</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">daily_survival</span><span class="o">.</span><span class="n">adult</span><span class="o">.</span><span class="n">baseline</span>
+    <span class="k">return</span> <span class="n">baseline</span> <span class="o">*</span> <span class="n">discount</span>
+
+  <span class="c1"># splitting into tracks</span>
+  <span class="n">model</span><span class="o">.</span><span class="n">set_transition</span><span class="p">(</span><span class="s1">&#39;emergence-rest&#39;</span><span class="p">,</span> <span class="s1">&#39;mate-first&#39;</span><span class="p">,</span> <span class="n">get_survival</span><span class="p">(</span><span class="s1">&#39;emergence-rest&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">config</span><span class="o">.</span><span class="n">mate_first_fraction</span><span class="p">)</span>
+  <span class="n">model</span><span class="o">.</span><span class="n">set_transition</span><span class="p">(</span><span class="s1">&#39;emergence-rest&#39;</span><span class="p">,</span> <span class="s1">&#39;feed-first&#39;</span><span class="p">,</span> <span class="n">get_survival</span><span class="p">(</span><span class="s1">&#39;emergence-rest&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">config</span><span class="o">.</span><span class="n">mate_first_fraction</span><span class="p">))</span>
+
+  
+  <span class="c1"># and the split from the feed-first track into the forever-virgin subtrack</span>
+  <span class="n">model</span><span class="o">.</span><span class="n">set_transition</span><span class="p">(</span><span class="s1">&#39;feed-first&#39;</span><span class="p">,</span> <span class="n">virgin_track</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>  
+  
+  <span class="c1"># helper function for linking up the compartments of each track</span>
+  <span class="k">def</span> <span class="nf">link_track</span><span class="p">(</span><span class="n">track</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">track</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">track</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+       <span class="n">model</span><span class="o">.</span><span class="n">set_transition</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">get_survival</span><span class="p">(</span><span class="n">c1</span><span class="p">))</span>
+
+  <span class="c1"># link up the three tracks</span>
+  <span class="n">link_track</span><span class="p">(</span><span class="n">mate_first_track</span><span class="p">)</span>
+  <span class="n">link_track</span><span class="p">(</span><span class="n">feed_first_track</span><span class="p">)</span>
+  <span class="n">link_track</span><span class="p">(</span><span class="n">virgin_track</span><span class="p">)</span>
+
+  <span class="c1"># dead</span>
+  <span class="n">model</span><span class="o">.</span><span class="n">set_sink</span><span class="p">(</span><span class="s1">&#39;dead&#39;</span><span class="p">)</span>
+
+  <span class="c1"># attach a copy of config to the model for future reference </span>
+  <span class="n">model</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+  <span class="c1"># double-check before returning</span>
+  <span class="n">model</span><span class="o">.</span><span class="n">validate_transitions</span><span class="p">()</span>
+  <span class="k">return</span> <span class="n">model</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">mosquito-lifecycle-model 1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Francisco Cai.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>
