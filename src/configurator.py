@@ -42,15 +42,15 @@ class Configurator:
     :param \**kawargs: See below.
 
     :Keyword arguments:
-      * *application*          -- 'itn' or 'irs'
-      * *intervention*         -- 'dbh', 'ins', or 'none'
-      * *coverage*             -- value between 0 and 1
-      * *dose*                 -- 'low', 'medium', or 'high'
-      * *num_days*             -- positive integer
-      * *intervention_day*     -- positive integer < num_days
-      * *transmission*         -- 'low', 'medium', or 'high'
-      * *larva_mortality*      -- 'linear' or 'logistic'
-      * *human_infectiousness* -- 'linear' or 'nonlinear'
+    * *application*          -- 'itn' or 'irs'
+    * *intervention*         -- 'dbh', 'ins', or 'none'
+    * *coverage*             -- value between 0 and 1
+    * *dose*                 -- 'low', 'medium', or 'high'
+    * *num_days*             -- positive integer
+    * *intervention_day*     -- positive integer < num_days
+    * *transmission*         -- 'low', 'medium', or 'high'
+    * *larva_mortality*      -- 'linear' or 'logistic'
+    * *human_infectiousness* -- 'linear' or 'nonlinear'
     """
     kwargs = Bunch(kwargs)
     for k in ('intervention', 'coverage', 'dose', 'num_days', 
