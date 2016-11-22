@@ -68,7 +68,7 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>name</strong> &#8211; The name of the compartment.</li>
 <li><strong>initial_size</strong> &#8211; The initial size of the compartment (default is 0).</li>
-<li><strong>attributes</strong> &#8211; A dictionary of attribute names and values to be associated with this compartment.</li>
+<li><strong>attributes</strong> &#8211; An optional dictionary of attribute names and values to be associated with this compartment.</li>
 </ul>
 </td>
 </tr>
@@ -84,7 +84,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>attribute_name</strong> &#8211; Name of the attribute.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The value of the attribute, or None if there is no attribute with the provided name.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The value of the attribute, or None if there is no attribute with that name.</td>
 </tr>
 </tbody>
 </table>
@@ -97,7 +97,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Name of this compartment</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Name of this Compartment</td>
 </tr>
 </tbody>
 </table>
@@ -110,7 +110,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Size of this compartment</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Size of this Compartment</td>
 </tr>
 </tbody>
 </table>
@@ -133,12 +133,12 @@
 <dl class="method">
 <dt id="src.compartmodel.Compartment.set_size">
 <code class="descname">set_size</code><span class="sig-paren">(</span><em>size</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/compartmodel.html#Compartment.set_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.compartmodel.Compartment.set_size" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the size of this compartment</p>
+<dd><p>Sets the size of this Compartment</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>size</strong> &#8211; The new size of this compartment (cannot be negative).</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>size</strong> &#8211; The new size of this Compartment (cannot be negative).</td>
 </tr>
 </tbody>
 </table>
@@ -149,19 +149,20 @@
 <dl class="class">
 <dt id="src.compartmodel.Model">
 <em class="property">class </em><code class="descclassname">src.compartmodel.</code><code class="descname">Model</code><a class="reference internal" href="_modules/src/compartmodel.html#Model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.compartmodel.Model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Represents a compartmental model using a set of compartments and transitions.</p>
+<dd><p>Represents a compartmental model using a set of Compartments and transitions between Compartments. A transition is characterized by a source compartment, a destination compartment, and a transition probability. A Model instance can optionally have</p>
+<p>A model is initialized with no Compartments and no transitions.</p>
 <dl class="method">
 <dt id="src.compartmodel.Model.add_compartment">
 <code class="descname">add_compartment</code><span class="sig-paren">(</span><em>name</em>, <em>initial_size=0</em>, <em>**attributes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/compartmodel.html#Model.add_compartment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.compartmodel.Model.add_compartment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a compartment to this model.</p>
+<dd><p>Add a compartment to this Model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> &#8211; Name of the compartment. Cannot be the name of an existing compartment.</li>
-<li><strong>initial_size</strong> &#8211; Size of the compartment (default = 0)</li>
-<li><strong>attributes</strong> &#8211; Dictionary of attribute names and values to be associated with the compartment.</li>
+<li><strong>name</strong> &#8211; Name of the new compartment. Cannot be the name of an existing compartment.</li>
+<li><strong>initial_size</strong> &#8211; Size of the new compartment (default = 0)</li>
+<li><strong>attributes</strong> &#8211; Dictionary of attribute names and values to be associated with the new compartment.</li>
 </ul>
 </td>
 </tr>
@@ -175,25 +176,26 @@
 <dl class="method">
 <dt id="src.compartmodel.Model.advance">
 <code class="descname">advance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/compartmodel.html#Model.advance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.compartmodel.Model.advance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Runs one step of the model, updating the sizes of each compartment according to the
+<dd><p>Runs one step of the model, updating the sizes of each Compartment according to the
 transitions.</p>
+<p>Raises an Exception if there is a Compartment for which the sum of its outgoing probabilities is not 1.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="src.compartmodel.Model.chain_compartments">
 <code class="descname">chain_compartments</code><span class="sig-paren">(</span><em>names</em>, <em>prob</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/compartmodel.html#Model.chain_compartments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.compartmodel.Model.chain_compartments" title="Permalink to this definition">¶</a></dt>
-<dd><p>Links named compartments into a chain.</p>
+<dd><p>Links the named Compartments into a chain.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>names</strong> &#8211; An iterable of model compartment names.</li>
-<li><strong>prob</strong> &#8211; The transition probability between each adjacent pair of compartments.</li>
+<li><strong>names</strong> &#8211; An iterable of Compartment names. Compartments must be in the Model.</li>
+<li><strong>prob</strong> &#8211; The transition probability between each adjacent pair of Compartments.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None. len(names) - 1 transitions are explicitly set.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None.</p>
 </td>
 </tr>
 </tbody>
@@ -210,7 +212,7 @@ transitions.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>attr</strong> &#8211; Name of the attribute.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The value of the attribute, or None if there is no attribute with the provided name.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The value of the attribute, or None if there is no attribute with that name.</td>
 </tr>
 </tbody>
 </table>
@@ -219,30 +221,30 @@ transitions.</p>
 <dl class="method">
 <dt id="src.compartmodel.Model.get_combined_size">
 <code class="descname">get_combined_size</code><span class="sig-paren">(</span><em>selector=&lt;function &lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/compartmodel.html#Model.get_combined_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.compartmodel.Model.get_combined_size" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the total size of a subset of compartments.</p>
+<dd><p>Get the total size of a subset of Compartments.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>selector</strong> &#8211; A boolean function that takes a compartment as an argument.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>selector</strong> &#8211; A boolean function that takes a Compartment as argument.</td>
 </tr>
 </tbody>
 </table>
 <p>(Default selector always returns True)
-:return: The total size of the subset of compartments for which selector returns True.</p>
+:return: The total size of the subset of Compartments for which selector returns True.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="src.compartmodel.Model.get_compartment">
 <code class="descname">get_compartment</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/compartmodel.html#Model.get_compartment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.compartmodel.Model.get_compartment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find a compartment by name.</p>
+<dd><p>Find a Compartment by name.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; Name of the compartment.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; Name of the Compartment.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The compartment, or None if not found.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The Compartment, or None if not found.</td>
 </tr>
 </tbody>
 </table>
@@ -251,14 +253,14 @@ transitions.</p>
 <dl class="method">
 <dt id="src.compartmodel.Model.get_reachable_compartments">
 <code class="descname">get_reachable_compartments</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/compartmodel.html#Model.get_reachable_compartments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.compartmodel.Model.get_reachable_compartments" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find all compartments reachable, through one or more transitions, from a given compartment.</p>
+<dd><p>Find all Compartments that are reachable from a starting Compartment through one or more transitions.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; Name of the starting compartment.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; Name of the starting Compartment. Must be a Compartment in the Model.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A iterable of compartments reachable from the named compartment.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A iterable of Compartments reachable from the named Compartment.</td>
 </tr>
 </tbody>
 </table>
@@ -267,14 +269,14 @@ transitions.</p>
 <dl class="method">
 <dt id="src.compartmodel.Model.get_transition">
 <code class="descname">get_transition</code><span class="sig-paren">(</span><em>from_name</em>, <em>to_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/compartmodel.html#Model.get_transition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.compartmodel.Model.get_transition" title="Permalink to this definition">¶</a></dt>
-<dd><p>Finds transition probability between two model compartments.</p>
+<dd><p>Finds the transition probability between two Compartments in the Model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>from_name</strong> &#8211; The transition starts at the model compartment with this name.</li>
-<li><strong>to_name</strong> &#8211; The transition ends at the model compartment with this name.</li>
+<li><strong>from_name</strong> &#8211; The transition starts at the model compartment with this name. Must be in a Compartment in the Model.</li>
+<li><strong>to_name</strong> &#8211; The transition ends at the model compartment with this name. Must be in a Compartment in the Model.</li>
 </ul>
 </td>
 </tr>
@@ -283,19 +285,19 @@ transitions.</p>
 </tr>
 </tbody>
 </table>
-<p>not been set, returns 0.</p>
+<p>not been explicitly set, returns 0.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="src.compartmodel.Model.populate">
 <code class="descname">populate</code><span class="sig-paren">(</span><em>total_size</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/compartmodel.html#Model.populate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.compartmodel.Model.populate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the total size of all compartments, equally distributed between compartments.</p>
+<dd><p>Sets the total size of all Compartments, equally distributed between compartments.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="src.compartmodel.Model.save_schematic">
 <code class="descname">save_schematic</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/compartmodel.html#Model.save_schematic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.compartmodel.Model.save_schematic" title="Permalink to this definition">¶</a></dt>
-<dd><p>Saves a PDF of the model structure.</p>
+<dd><p>Saves schematic showing the Compartments and transitions of the Model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -309,14 +311,14 @@ transitions.</p>
 <dl class="method">
 <dt id="src.compartmodel.Model.select_compartments">
 <code class="descname">select_compartments</code><span class="sig-paren">(</span><em>selector</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/compartmodel.html#Model.select_compartments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.compartmodel.Model.select_compartments" title="Permalink to this definition">¶</a></dt>
-<dd><p>Finds model compartments that fulfill a given condition.</p>
+<dd><p>Finds Compartments in the Model that fulfill a given condition.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>selector</strong> &#8211; A boolean function that takes a compartment as an argument.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>selector</strong> &#8211; A boolean function that takes a Compartment as argument.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an iterable of compartments for which &#8216;selector&#8217; returns true.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an iterable of Compartments for which &#8216;selector&#8217; returns true.</td>
 </tr>
 </tbody>
 </table>
@@ -325,7 +327,7 @@ transitions.</p>
 <dl class="method">
 <dt id="src.compartmodel.Model.set_attr">
 <code class="descname">set_attr</code><span class="sig-paren">(</span><em>**attributes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/compartmodel.html#Model.set_attr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.compartmodel.Model.set_attr" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add attributes to this compartment. Existing attributes with the same names are overwritten.</p>
+<dd><p>Add attributes to this Model. Existing attributes with the same names are overwritten.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -339,36 +341,39 @@ transitions.</p>
 <dl class="method">
 <dt id="src.compartmodel.Model.set_sink">
 <code class="descname">set_sink</code><span class="sig-paren">(</span><em>sink_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/compartmodel.html#Model.set_sink"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.compartmodel.Model.set_sink" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets a compartment (sink) to receive transitions from all other compartments, so the
-outgoing probabilities of all other compartments sum to 1.</p>
+<dd><p>Sets a Compartment (sink) to receive transitions from all other Compartments such that for every Compartment (including the sink), its outgoing probabilities sum to 1.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sink_name</strong> &#8211; Name of the sink compartment.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sink_name</strong> &#8211; Name of the Compartment to be made the sink. Compartment must exist in the Model.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None.</td>
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">set_sink can only be called once. Calling it a second time on the same Model instance raises a RuntimeError.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
 <dt id="src.compartmodel.Model.set_transition">
 <code class="descname">set_transition</code><span class="sig-paren">(</span><em>from_name</em>, <em>to_name</em>, <em>prob</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/compartmodel.html#Model.set_transition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.compartmodel.Model.set_transition" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates (or overwrites) a transition between two model compartments.</p>
+<dd><p>Creates (or overwrites) a transition between two Compartments in the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>from_name</strong> &#8211; The transition starts at the model compartment with this name.</li>
-<li><strong>to_name</strong> &#8211; The transition ends at the model compartment with this name.</li>
-<li><strong>prob</strong> &#8211; THe probability associated with this transition.</li>
+<li><strong>from_name</strong> &#8211; The transition starts at the Compartment with this name. Must be in a Compartment in the Model.</li>
+<li><strong>to_name</strong> &#8211; The transition ends at the Compartment with this name. Must be in a Compartment in the Model. Can be the same as from_name, i.e. a self-transition is allowed.</li>
+<li><strong>prob</strong> &#8211; The probability associated with this transition.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None. Raises a ValueError if there are no compartments with the given names.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None.</p>
 </td>
 </tr>
 </tbody>
@@ -378,7 +383,7 @@ outgoing probabilities of all other compartments sum to 1.</p>
 <dl class="method">
 <dt id="src.compartmodel.Model.update_transition">
 <code class="descname">update_transition</code><span class="sig-paren">(</span><em>from_name</em>, <em>to_name</em>, <em>prob</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/compartmodel.html#Model.update_transition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.compartmodel.Model.update_transition" title="Permalink to this definition">¶</a></dt>
-<dd><p>Updates a transition between two model compartments, and rescales the outgoing
+<dd><p>Sets the transition probability between two Compartments in the Model, <em>and</em> rescales the outgoing
 transition probabilities of the &#8220;from&#8221; compartment.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -396,18 +401,24 @@ transition probabilities of the &#8220;from&#8221; compartment.</p>
 </tr>
 </tbody>
 </table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a href="#id1"><span class="problematic" id="id2">`set_transition`_</span></a></p>
+</div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The transition need not have been explicitly set before. If the given transition
-probability is 1, then all other outgoing transition probabilities are rescaled 
-to 0, and their weights relative to each other are lost.</p>
+<ul class="simple">
+<li>The transition need not have been explicitly set before.</li>
+<li>If the given transition probability is 1, then all other outgoing transition probabilities are rescaled</li>
+</ul>
+<p class="last">to 0, and their weights relative to each other are lost.</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="src.compartmodel.Model.validate_transitions">
 <code class="descname">validate_transitions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/compartmodel.html#Model.validate_transitions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#src.compartmodel.Model.validate_transitions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check that for each compartment, the sum of all outgoing probabilities is 1.</p>
+<dd><p>Check that for each Compartment in the Model, the sum of all outgoing probabilities is 1.</p>
 </dd></dl>
 
 </dd></dl>

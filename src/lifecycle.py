@@ -77,7 +77,6 @@ def create_model(config):
   model.set_transition('emergence-rest', 'mate-first', get_survival('emergence-rest') * config.mate_first_fraction)
   model.set_transition('emergence-rest', 'feed-first', get_survival('emergence-rest') * (1 - config.mate_first_fraction))
 
-  
   # and the split from the feed-first track into the forever-virgin subtrack
   model.set_transition('feed-first', virgin_track[0], 0)  
   
@@ -91,7 +90,7 @@ def create_model(config):
   link_track(feed_first_track)
   link_track(virgin_track)
 
-  # dead
+  # set the dead to be the sink
   model.set_sink('dead')
 
   # attach a copy of config to the model for future reference 

@@ -54,7 +54,9 @@
 <span class="kn">import</span> <span class="nn">graphviz</span>
 <span class="kn">import</span> <span class="nn">pprint</span>
 
-<span class="sd">&quot;&quot;&quot;This module contains classes to represent a compartmental model&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;This module contains two classes, Compartment and Model, which are used to represent compartmental models in epidemiology.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="Compartment"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Compartment">[docs]</a><span class="k">class</span> <span class="nc">Compartment</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -62,7 +64,7 @@
 <span class="sd">  </span>
 <span class="sd">  :param name: The name of the compartment.</span>
 <span class="sd">  :param initial_size: The initial size of the compartment (default is 0).</span>
-<span class="sd">  :param attributes: A dictionary of attribute names and values to be associated with this compartment.</span>
+<span class="sd">  :param attributes: An optional dictionary of attribute names and values to be associated with this compartment.</span>
 
 <span class="sd">  &quot;&quot;&quot;</span>
 
@@ -74,7 +76,7 @@
 <div class="viewcode-block" id="Compartment.get_name"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Compartment.get_name">[docs]</a>  <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; </span>
 
-<span class="sd">    :return: Name of this compartment</span>
+<span class="sd">    :return: Name of this Compartment</span>
 
 <span class="sd">  </span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -83,16 +85,16 @@
 <div class="viewcode-block" id="Compartment.get_size"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Compartment.get_size">[docs]</a>  <span class="k">def</span> <span class="nf">get_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; </span>
 
-<span class="sd">    :return: Size of this compartment</span>
+<span class="sd">    :return: Size of this Compartment</span>
 
 <span class="sd">  </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span></div>
 
 <div class="viewcode-block" id="Compartment.set_size"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Compartment.set_size">[docs]</a>  <span class="k">def</span> <span class="nf">set_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Sets the size of this compartment</span>
+    <span class="sd">&quot;&quot;&quot; Sets the size of this Compartment</span>
 
-<span class="sd">    :param size: The new size of this compartment (cannot be negative).</span>
+<span class="sd">    :param size: The new size of this Compartment (cannot be negative).</span>
 
 <span class="sd">  </span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -104,7 +106,7 @@
     <span class="sd">&quot;&quot;&quot; Get an attribute associated with this compartment</span>
 
 <span class="sd">    :param attribute_name: Name of the attribute.</span>
-<span class="sd">    :return: The value of the attribute, or None if there is no attribute with the provided name.</span>
+<span class="sd">    :return: The value of the attribute, or None if there is no attribute with that name.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">attribute_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
@@ -128,7 +130,11 @@
     <span class="k">return</span> <span class="n">pp</span><span class="o">.</span><span class="n">pformat</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="s1">&#39;attributes&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="p">,</span> <span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">})</span></div>
   
 <div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-  <span class="sd">&#39;&#39;&#39;Represents a compartmental model using a set of compartments and transitions.&#39;&#39;&#39;</span>
+  <span class="sd">&quot;&quot;&quot;Represents a compartmental model using a set of Compartments and transitions between Compartments. A transition is characterized by a source compartment, a destination compartment, and a transition probability. A Model instance can optionally have </span>
+
+<span class="sd">  A model is initialized with no Compartments and no transitions. </span>
+
+<span class="sd">  &quot;&quot;&quot;</span>
   
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_compartments</span> <span class="o">=</span> <span class="p">{}</span>
@@ -140,13 +146,13 @@
     <span class="sd">&quot;&quot;&quot; Get an attribute associated with this model.</span>
 
 <span class="sd">    :param attr: Name of the attribute.</span>
-<span class="sd">    :return: The value of the attribute, or None if there is no attribute with the provided name.</span>
+<span class="sd">    :return: The value of the attribute, or None if there is no attribute with that name.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Model.set_attr"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Model.set_attr">[docs]</a>  <span class="k">def</span> <span class="nf">set_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">attributes</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Add attributes to this compartment. Existing attributes with the same names are overwritten.</span>
+    <span class="sd">&quot;&quot;&quot; Add attributes to this Model. Existing attributes with the same names are overwritten.</span>
 
 <span class="sd">    :param attributes: Dictionary of attribute names and values.</span>
 
@@ -155,11 +161,11 @@
       <span class="bp">self</span><span class="o">.</span><span class="n">_attributes</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
 
 <div class="viewcode-block" id="Model.add_compartment"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Model.add_compartment">[docs]</a>  <span class="k">def</span> <span class="nf">add_compartment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">initial_size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">attributes</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Add a compartment to this model.</span>
+    <span class="sd">&quot;&quot;&quot; Add a compartment to this Model.</span>
 
-<span class="sd">    :param name: Name of the compartment. Cannot be the name of an existing compartment.</span>
-<span class="sd">    :param initial_size: Size of the compartment (default = 0)</span>
-<span class="sd">    :param attributes: Dictionary of attribute names and values to be associated with the compartment.</span>
+<span class="sd">    :param name: Name of the new compartment. Cannot be the name of an existing compartment.</span>
+<span class="sd">    :param initial_size: Size of the new compartment (default = 0)</span>
+<span class="sd">    :param attributes: Dictionary of attribute names and values to be associated with the new compartment.</span>
 
 <span class="sd">    :return: Name of the added compartment.</span>
 
@@ -170,25 +176,24 @@
     <span class="k">return</span> <span class="n">name</span></div>
 
 <div class="viewcode-block" id="Model.get_compartment"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Model.get_compartment">[docs]</a>  <span class="k">def</span> <span class="nf">get_compartment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Find a compartment by name.</span>
+    <span class="sd">&quot;&quot;&quot; Find a Compartment by name.</span>
 
-<span class="sd">    :param name: Name of the compartment.</span>
-<span class="sd">    :return: The compartment, or None if not found.</span>
+<span class="sd">    :param name: Name of the Compartment.</span>
+<span class="sd">    :return: The Compartment, or None if not found.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compartments</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Model.get_reachable_compartments"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Model.get_reachable_compartments">[docs]</a>  <span class="k">def</span> <span class="nf">get_reachable_compartments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Find all compartments reachable, through one or more transitions, from a given compartment.</span>
+    <span class="sd">&quot;&quot;&quot; Find all Compartments that are reachable from a starting Compartment through one or more transitions.</span>
 
-<span class="sd">    :param name: Name of the starting compartment.</span>
-<span class="sd">    :return: A iterable of compartments reachable from the named compartment.</span>
+<span class="sd">    :param name: Name of the starting Compartment. Must be a Compartment in the Model.</span>
+<span class="sd">    :return: A iterable of Compartments reachable from the named Compartment.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compartments</span><span class="p">:</span>
       <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;&quot;</span><span class="si">{}</span><span class="s1">&quot; is not the name of any compartment in the model&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 
-    <span class="c1"># start with those one hop away to avoid automatically adding starting node</span>
     <span class="n">reachable</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compartments</span><span class="o">.</span><span class="n">itervalues</span><span class="p">():</span>
@@ -205,21 +210,21 @@
     <span class="k">return</span> <span class="n">reachable</span></div>
 
 <div class="viewcode-block" id="Model.select_compartments"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Model.select_compartments">[docs]</a>  <span class="k">def</span> <span class="nf">select_compartments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selector</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Finds model compartments that fulfill a given condition.</span>
+    <span class="sd">&quot;&quot;&quot; Finds Compartments in the Model that fulfill a given condition.</span>
 
-<span class="sd">    :param selector: A boolean function that takes a compartment as an argument.</span>
-<span class="sd">    :return: an iterable of compartments for which &#39;selector&#39; returns true.</span>
+<span class="sd">    :param selector: A boolean function that takes a Compartment as argument.</span>
+<span class="sd">    :return: an iterable of Compartments for which &#39;selector&#39; returns true.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">filter</span><span class="p">(</span><span class="n">selector</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compartments</span><span class="o">.</span><span class="n">itervalues</span><span class="p">())</span> </div>
 
 <div class="viewcode-block" id="Model.set_transition"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Model.set_transition">[docs]</a>  <span class="k">def</span> <span class="nf">set_transition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_name</span><span class="p">,</span> <span class="n">to_name</span><span class="p">,</span> <span class="n">prob</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Creates (or overwrites) a transition between two model compartments.</span>
+    <span class="sd">&quot;&quot;&quot; Creates (or overwrites) a transition between two Compartments in the model.</span>
 
-<span class="sd">    :param from_name: The transition starts at the model compartment with this name.</span>
-<span class="sd">    :param to_name: The transition ends at the model compartment with this name.</span>
-<span class="sd">    :param prob: THe probability associated with this transition.</span>
-<span class="sd">    :return: None. Raises a ValueError if there are no compartments with the given names.</span>
+<span class="sd">    :param from_name: The transition starts at the Compartment with this name. Must be in a Compartment in the Model.</span>
+<span class="sd">    :param to_name: The transition ends at the Compartment with this name. Must be in a Compartment in the Model. Can be the same as from_name, i.e. a self-transition is allowed.</span>
+<span class="sd">    :param prob: The probability associated with this transition.</span>
+<span class="sd">    :return: None. </span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">from_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compartments</span><span class="p">:</span>
@@ -231,12 +236,12 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">_transitions</span><span class="p">[(</span><span class="n">from_name</span><span class="p">,</span> <span class="n">to_name</span><span class="p">)]</span> <span class="o">=</span> <span class="n">prob</span></div>
 
 <div class="viewcode-block" id="Model.get_transition"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Model.get_transition">[docs]</a>  <span class="k">def</span> <span class="nf">get_transition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_name</span><span class="p">,</span> <span class="n">to_name</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Finds transition probability between two model compartments.</span>
+    <span class="sd">&quot;&quot;&quot; Finds the transition probability between two Compartments in the Model.</span>
 
-<span class="sd">    :param from_name: The transition starts at the model compartment with this name.</span>
-<span class="sd">    :param to_name: The transition ends at the model compartment with this name.</span>
+<span class="sd">    :param from_name: The transition starts at the model compartment with this name. Must be in a Compartment in the Model.</span>
+<span class="sd">    :param to_name: The transition ends at the model compartment with this name. Must be in a Compartment in the Model.</span>
 <span class="sd">    :return: The transition probability between the two compartments. If the transition has</span>
-<span class="sd">    not been set, returns 0.</span>
+<span class="sd">    not been explicitly set, returns 0.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">from_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compartments</span><span class="p">:</span>
@@ -246,7 +251,7 @@
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transitions</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">from_name</span><span class="p">,</span> <span class="n">to_name</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Model.update_transition"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Model.update_transition">[docs]</a>  <span class="k">def</span> <span class="nf">update_transition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_name</span><span class="p">,</span> <span class="n">to_name</span><span class="p">,</span> <span class="n">prob</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Updates a transition between two model compartments, and rescales the outgoing</span>
+    <span class="sd">&quot;&quot;&quot; Sets the transition probability between two Compartments in the Model, *and* rescales the outgoing</span>
 <span class="sd">    transition probabilities of the &quot;from&quot; compartment.</span>
 
 <span class="sd">    :param from_name: The transition starts at the model compartment with this name.</span>
@@ -254,10 +259,13 @@
 <span class="sd">    :param prob: The transition probability.</span>
 <span class="sd">    :return: None.</span>
 
+<span class="sd">    .. seealso:: `set_transition`_</span>
+
 <span class="sd">    .. note::</span>
 
-<span class="sd">      The transition need not have been explicitly set before. If the given transition</span>
-<span class="sd">      probability is 1, then all other outgoing transition probabilities are rescaled </span>
+<span class="sd">      * The transition need not have been explicitly set before. </span>
+
+<span class="sd">      * If the given transition probability is 1, then all other outgoing transition probabilities are rescaled </span>
 <span class="sd">      to 0, and their weights relative to each other are lost.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -276,11 +284,11 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">validate_transitions</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Model.chain_compartments"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Model.chain_compartments">[docs]</a>  <span class="k">def</span> <span class="nf">chain_compartments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">prob</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Links named compartments into a chain.</span>
+    <span class="sd">&quot;&quot;&quot; Links the named Compartments into a chain.</span>
 <span class="sd">    </span>
-<span class="sd">    :param names: An iterable of model compartment names.</span>
-<span class="sd">    :param prob: The transition probability between each adjacent pair of compartments.</span>
-<span class="sd">    :return: None. len(names) - 1 transitions are explicitly set.</span>
+<span class="sd">    :param names: An iterable of Compartment names. Compartments must be in the Model.</span>
+<span class="sd">    :param prob: The transition probability between each adjacent pair of Compartments.</span>
+<span class="sd">    :return: None.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -295,15 +303,18 @@
     <span class="k">return</span> <span class="n">outgoing_probs</span>
 
 <div class="viewcode-block" id="Model.set_sink"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Model.set_sink">[docs]</a>  <span class="k">def</span> <span class="nf">set_sink</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sink_name</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Sets a compartment (sink) to receive transitions from all other compartments, so the</span>
-<span class="sd">    outgoing probabilities of all other compartments sum to 1.</span>
+    <span class="sd">&quot;&quot;&quot; Sets a Compartment (sink) to receive transitions from all other Compartments such that for every Compartment (including the sink), its outgoing probabilities sum to 1.</span>
 <span class="sd">    </span>
-<span class="sd">    :param sink_name: Name of the sink compartment.</span>
+<span class="sd">    :param sink_name: Name of the Compartment to be made the sink. Compartment must exist in the Model.</span>
 <span class="sd">    :return: None.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">       set_sink can only be called once. Calling it a second time on the same Model instance raises a RuntimeError.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sink</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Sink has already been set.&#39;</span><span class="p">)</span>
+      <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Sink has already been set.&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">sink_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compartments</span><span class="p">:</span>
       <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Add &quot;</span><span class="si">{}</span><span class="s1">&quot; as a compartment to this model first&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sink_name</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">prob</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_outgoing_probs</span><span class="p">()</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
@@ -312,32 +323,38 @@
       <span class="bp">self</span><span class="o">.</span><span class="n">set_transition</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">sink_name</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">prob</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Model.validate_transitions"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Model.validate_transitions">[docs]</a>  <span class="k">def</span> <span class="nf">validate_transitions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Check that for each compartment, the sum of all outgoing probabilities is 1. &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot; Check that for each Compartment in the Model, the sum of all outgoing probabilities is 1. &quot;&quot;&quot;</span>
+
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">prob</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_outgoing_probs</span><span class="p">()</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
       <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">prob</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">6</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Outgoing probabilities from &quot;</span><span class="si">{}</span><span class="s1">&quot; (</span><span class="si">{}</span><span class="s1">) is not 1.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">prob</span><span class="p">))</span>
     <span class="k">return</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="Model.get_combined_size"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Model.get_combined_size">[docs]</a>  <span class="k">def</span> <span class="nf">get_combined_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Get the total size of a subset of compartments. </span>
+    <span class="sd">&quot;&quot;&quot; Get the total size of a subset of Compartments. </span>
 <span class="sd">      </span>
-<span class="sd">    :param selector: A boolean function that takes a compartment as an argument.</span>
+<span class="sd">    :param selector: A boolean function that takes a Compartment as argument.</span>
 <span class="sd">    (Default selector always returns True)</span>
-<span class="sd">    :return: The total size of the subset of compartments for which selector returns True.</span>
+<span class="sd">    :return: The total size of the subset of Compartments for which selector returns True.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">subset</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="n">selector</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compartments</span><span class="o">.</span><span class="n">itervalues</span><span class="p">())</span> 
     <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">subset</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Model.populate"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Model.populate">[docs]</a>  <span class="k">def</span> <span class="nf">populate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">total_size</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Sets the total size of all compartments, equally distributed between compartments. &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot; Sets the total size of all Compartments, equally distributed between compartments. &quot;&quot;&quot;</span>
+
     <span class="n">size</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">total_size</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_compartments</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compartments</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
       <span class="n">c</span><span class="o">.</span><span class="n">set_size</span><span class="p">(</span><span class="n">size</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Model.advance"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Model.advance">[docs]</a>  <span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Runs one step of the model, updating the sizes of each compartment according to the</span>
+    <span class="sd">&quot;&quot;&quot; Runs one step of the model, updating the sizes of each Compartment according to the</span>
 <span class="sd">    transitions. </span>
+
+<span class="sd">    .. note:: </span>
+
+<span class="sd">    Raises an Exception if there is a Compartment for which the sum of its outgoing probabilities is not 1.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">validate_transitions</span><span class="p">()</span>
@@ -351,7 +368,7 @@
       <span class="bp">self</span><span class="o">.</span><span class="n">_compartments</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">set_size</span><span class="p">(</span><span class="n">size</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Model.save_schematic"><a class="viewcode-back" href="../../src.compartmodel.html#src.compartmodel.Model.save_schematic">[docs]</a>  <span class="k">def</span> <span class="nf">save_schematic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>   
-    <span class="sd">&quot;&quot;&quot; Saves a PDF of the model structure. </span>
+    <span class="sd">&quot;&quot;&quot; Saves schematic showing the Compartments and transitions of the Model.</span>
 
 <span class="sd">    :param filepath: Save the PDF to this path.</span>
 

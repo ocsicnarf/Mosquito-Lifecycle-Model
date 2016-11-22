@@ -2,7 +2,9 @@ from collections import defaultdict, deque
 import graphviz
 import pprint
 
-"""This module contains classes to represent a compartmental model"""
+"""This module contains two classes, Compartment and Model, which are used to represent compartmental models in epidemiology.
+
+"""
 
 
 class Compartment(object):
@@ -10,7 +12,7 @@ class Compartment(object):
   
   :param name: The name of the compartment.
   :param initial_size: The initial size of the compartment (default is 0).
-  :param attributes: A dictionary of attribute names and values to be associated with this compartment.
+  :param attributes: An optional dictionary of attribute names and values to be associated with this compartment.
 
   """
 
@@ -22,7 +24,7 @@ class Compartment(object):
   def get_name(self):
     """ 
 
-    :return: Name of this compartment
+    :return: Name of this Compartment
 
   
     """
@@ -31,16 +33,16 @@ class Compartment(object):
   def get_size(self):
     """ 
 
-    :return: Size of this compartment
+    :return: Size of this Compartment
 
   
     """
     return self._size
 
   def set_size(self, size):
-    """ Sets the size of this compartment
+    """ Sets the size of this Compartment
 
-    :param size: The new size of this compartment (cannot be negative).
+    :param size: The new size of this Compartment (cannot be negative).
 
   
     """
@@ -52,7 +54,7 @@ class Compartment(object):
     """ Get an attribute associated with this compartment
 
     :param attribute_name: Name of the attribute.
-    :return: The value of the attribute, or None if there is no attribute with the provided name.
+    :return: The value of the attribute, or None if there is no attribute with that name.
 
     """
     return self._attributes.get(attribute_name, None)
@@ -76,7 +78,11 @@ class Compartment(object):
     return pp.pformat({'name': self._name, 'attributes': self._attributes, 'size': self._size})
   
 class Model(object):
-  '''Represents a compartmental model using a set of compartments and transitions.'''
+  """Represents a compartmental model using a set of Compartments and transitions between Compartments. A transition is characterized by a source compartment, a destination compartment, and a transition probability. A Model instance can optionally have 
+
+  A model is initialized with no Compartments and no transitions. 
+
+  """
   
   def __init__(self):
     self._compartments = {}
@@ -88,13 +94,13 @@ class Model(object):
     """ Get an attribute associated with this model.
 
     :param attr: Name of the attribute.
-    :return: The value of the attribute, or None if there is no attribute with the provided name.
+    :return: The value of the attribute, or None if there is no attribute with that name.
 
     """
     return self._attributes.get(attr, None)
 
   def set_attr(self, **attributes):
-    """ Add attributes to this compartment. Existing attributes with the same names are overwritten.
+    """ Add attributes to this Model. Existing attributes with the same names are overwritten.
 
     :param attributes: Dictionary of attribute names and values.
 
@@ -103,11 +109,11 @@ class Model(object):
       self._attributes[attr] = value
 
   def add_compartment(self, name, initial_size=0, **attributes):
-    """ Add a compartment to this model.
+    """ Add a compartment to this Model.
 
-    :param name: Name of the compartment. Cannot be the name of an existing compartment.
-    :param initial_size: Size of the compartment (default = 0)
-    :param attributes: Dictionary of attribute names and values to be associated with the compartment.
+    :param name: Name of the new compartment. Cannot be the name of an existing compartment.
+    :param initial_size: Size of the new compartment (default = 0)
+    :param attributes: Dictionary of attribute names and values to be associated with the new compartment.
 
     :return: Name of the added compartment.
 
@@ -118,25 +124,24 @@ class Model(object):
     return name
 
   def get_compartment(self, name):
-    """ Find a compartment by name.
+    """ Find a Compartment by name.
 
-    :param name: Name of the compartment.
-    :return: The compartment, or None if not found.
+    :param name: Name of the Compartment.
+    :return: The Compartment, or None if not found.
 
     """
     return self._compartments.get(name, None)
 
   def get_reachable_compartments(self, name):
-    """ Find all compartments reachable, through one or more transitions, from a given compartment.
+    """ Find all Compartments that are reachable from a starting Compartment through one or more transitions.
 
-    :param name: Name of the starting compartment.
-    :return: A iterable of compartments reachable from the named compartment.
+    :param name: Name of the starting Compartment. Must be a Compartment in the Model.
+    :return: A iterable of Compartments reachable from the named Compartment.
 
     """
     if name not in self._compartments:
       raise ValueError('"{}" is not the name of any compartment in the model'.format(name))
 
-    # start with those one hop away to avoid automatically adding starting node
     reachable = set()
     queue = deque()
     for c in self._compartments.itervalues():
@@ -153,21 +158,21 @@ class Model(object):
     return reachable
 
   def select_compartments(self, selector):
-    """ Finds model compartments that fulfill a given condition.
+    """ Finds Compartments in the Model that fulfill a given condition.
 
-    :param selector: A boolean function that takes a compartment as an argument.
-    :return: an iterable of compartments for which 'selector' returns true.
+    :param selector: A boolean function that takes a Compartment as argument.
+    :return: an iterable of Compartments for which 'selector' returns true.
 
     """
     return filter(selector, self._compartments.itervalues()) 
 
   def set_transition(self, from_name, to_name, prob):
-    """ Creates (or overwrites) a transition between two model compartments.
+    """ Creates (or overwrites) a transition between two Compartments in the model.
 
-    :param from_name: The transition starts at the model compartment with this name.
-    :param to_name: The transition ends at the model compartment with this name.
-    :param prob: THe probability associated with this transition.
-    :return: None. Raises a ValueError if there are no compartments with the given names.
+    :param from_name: The transition starts at the Compartment with this name. Must be in a Compartment in the Model.
+    :param to_name: The transition ends at the Compartment with this name. Must be in a Compartment in the Model. Can be the same as from_name, i.e. a self-transition is allowed.
+    :param prob: The probability associated with this transition.
+    :return: None. 
 
     """
     if from_name not in self._compartments:
@@ -179,12 +184,12 @@ class Model(object):
     self._transitions[(from_name, to_name)] = prob
 
   def get_transition(self, from_name, to_name):
-    """ Finds transition probability between two model compartments.
+    """ Finds the transition probability between two Compartments in the Model.
 
-    :param from_name: The transition starts at the model compartment with this name.
-    :param to_name: The transition ends at the model compartment with this name.
+    :param from_name: The transition starts at the model compartment with this name. Must be in a Compartment in the Model.
+    :param to_name: The transition ends at the model compartment with this name. Must be in a Compartment in the Model.
     :return: The transition probability between the two compartments. If the transition has
-    not been set, returns 0.
+    not been explicitly set, returns 0.
 
     """
     if from_name not in self._compartments:
@@ -194,7 +199,7 @@ class Model(object):
     return self._transitions.get((from_name, to_name), 0)
 
   def update_transition(self, from_name, to_name, prob):
-    """ Updates a transition between two model compartments, and rescales the outgoing
+    """ Sets the transition probability between two Compartments in the Model, *and* rescales the outgoing
     transition probabilities of the "from" compartment.
 
     :param from_name: The transition starts at the model compartment with this name.
@@ -202,10 +207,13 @@ class Model(object):
     :param prob: The transition probability.
     :return: None.
 
+    .. seealso:: `set_transition`_
+
     .. note::
 
-      The transition need not have been explicitly set before. If the given transition
-      probability is 1, then all other outgoing transition probabilities are rescaled 
+      * The transition need not have been explicitly set before. 
+
+      * If the given transition probability is 1, then all other outgoing transition probabilities are rescaled 
       to 0, and their weights relative to each other are lost.
 
     """
@@ -224,11 +232,11 @@ class Model(object):
     self.validate_transitions()
 
   def chain_compartments(self, names, prob):
-    """ Links named compartments into a chain.
+    """ Links the named Compartments into a chain.
     
-    :param names: An iterable of model compartment names.
-    :param prob: The transition probability between each adjacent pair of compartments.
-    :return: None. len(names) - 1 transitions are explicitly set.
+    :param names: An iterable of Compartment names. Compartments must be in the Model.
+    :param prob: The transition probability between each adjacent pair of Compartments.
+    :return: None.
 
     """
 
@@ -243,15 +251,18 @@ class Model(object):
     return outgoing_probs
 
   def set_sink(self, sink_name):
-    """ Sets a compartment (sink) to receive transitions from all other compartments, so the
-    outgoing probabilities of all other compartments sum to 1.
+    """ Sets a Compartment (sink) to receive transitions from all other Compartments such that for every Compartment (including the sink), its outgoing probabilities sum to 1.
     
-    :param sink_name: Name of the sink compartment.
+    :param sink_name: Name of the Compartment to be made the sink. Compartment must exist in the Model.
     :return: None.
+
+    .. note::
+
+       set_sink can only be called once. Calling it a second time on the same Model instance raises a RuntimeError.
 
     """
     if self._sink is not None:
-      raise ValueError('Sink has already been set.')
+      raise RuntimeError('Sink has already been set.')
     if sink_name not in self._compartments:
       raise ValueError('Add "{}" as a compartment to this model first'.format(sink_name))
     for name, prob in self._get_outgoing_probs().iteritems():
@@ -260,32 +271,38 @@ class Model(object):
       self.set_transition(name, sink_name, 1 - prob)
 
   def validate_transitions(self):
-    """ Check that for each compartment, the sum of all outgoing probabilities is 1. """
+    """ Check that for each Compartment in the Model, the sum of all outgoing probabilities is 1. """
+
     for name, prob in self._get_outgoing_probs().iteritems():
       if abs(prob - 1) > 1e-6:
         raise RuntimeError('Outgoing probabilities from "{}" ({}) is not 1.'.format(name, prob))
     return True
 
   def get_combined_size(self, selector=lambda c: True):
-    """ Get the total size of a subset of compartments. 
+    """ Get the total size of a subset of Compartments. 
       
-    :param selector: A boolean function that takes a compartment as an argument.
+    :param selector: A boolean function that takes a Compartment as argument.
     (Default selector always returns True)
-    :return: The total size of the subset of compartments for which selector returns True.
+    :return: The total size of the subset of Compartments for which selector returns True.
 
     """
     subset = filter(selector, self._compartments.itervalues()) 
     return sum(c.get_size() for c in subset)
 
   def populate(self, total_size):
-    """ Sets the total size of all compartments, equally distributed between compartments. """
+    """ Sets the total size of all Compartments, equally distributed between compartments. """
+
     size = float(total_size) / len(self._compartments)
     for name, c in self._compartments.iteritems():
       c.set_size(size)
 
   def advance(self):
-    """ Runs one step of the model, updating the sizes of each compartment according to the
+    """ Runs one step of the model, updating the sizes of each Compartment according to the
     transitions. 
+
+    .. note:: 
+
+    Raises an Exception if there is a Compartment for which the sum of its outgoing probabilities is not 1.
 
     """
     self.validate_transitions()
@@ -299,7 +316,7 @@ class Model(object):
       self._compartments[name].set_size(size)
 
   def save_schematic(self, filepath):   
-    """ Saves a PDF of the model structure. 
+    """ Saves schematic showing the Compartments and transitions of the Model.
 
     :param filepath: Save the PDF to this path.
 

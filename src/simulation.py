@@ -371,7 +371,7 @@ def run_simulation_from_config(config):
 
   mal_results = run_malaria_simulation(config, feeder_timeseries, exposure_history, exposed_fractions)
 
-  # return results (+ additional information?)
+  # return results
   return Bunch(
     population = dem_results, 
     malaria    = mal_results
