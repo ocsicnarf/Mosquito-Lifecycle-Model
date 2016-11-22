@@ -207,7 +207,7 @@ class Model(object):
     :param prob: The transition probability.
     :return: None.
 
-    .. seealso:: `set_transition`_
+    .. seealso:: `src.compartmodel.Model.set_transition`_
 
     .. note::
 
