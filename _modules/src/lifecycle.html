@@ -129,7 +129,6 @@
   <span class="n">model</span><span class="o">.</span><span class="n">set_transition</span><span class="p">(</span><span class="s1">&#39;emergence-rest&#39;</span><span class="p">,</span> <span class="s1">&#39;mate-first&#39;</span><span class="p">,</span> <span class="n">get_survival</span><span class="p">(</span><span class="s1">&#39;emergence-rest&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">config</span><span class="o">.</span><span class="n">mate_first_fraction</span><span class="p">)</span>
   <span class="n">model</span><span class="o">.</span><span class="n">set_transition</span><span class="p">(</span><span class="s1">&#39;emergence-rest&#39;</span><span class="p">,</span> <span class="s1">&#39;feed-first&#39;</span><span class="p">,</span> <span class="n">get_survival</span><span class="p">(</span><span class="s1">&#39;emergence-rest&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">config</span><span class="o">.</span><span class="n">mate_first_fraction</span><span class="p">))</span>
 
-  
   <span class="c1"># and the split from the feed-first track into the forever-virgin subtrack</span>
   <span class="n">model</span><span class="o">.</span><span class="n">set_transition</span><span class="p">(</span><span class="s1">&#39;feed-first&#39;</span><span class="p">,</span> <span class="n">virgin_track</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>  
   
@@ -143,7 +142,7 @@
   <span class="n">link_track</span><span class="p">(</span><span class="n">feed_first_track</span><span class="p">)</span>
   <span class="n">link_track</span><span class="p">(</span><span class="n">virgin_track</span><span class="p">)</span>
 
-  <span class="c1"># dead</span>
+  <span class="c1"># set the dead to be the sink</span>
   <span class="n">model</span><span class="o">.</span><span class="n">set_sink</span><span class="p">(</span><span class="s1">&#39;dead&#39;</span><span class="p">)</span>
 
   <span class="c1"># attach a copy of config to the model for future reference </span>
